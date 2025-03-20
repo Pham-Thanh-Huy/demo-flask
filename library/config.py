@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_env = load_dotenv()
+load_dotenv()
 
 MYSQL_HOST = os.getenv("MYSQL_HOST")
 MYSQL_PORT = os.getenv("MYSQL_PORT")

@@ -1,6 +1,8 @@
 from library import db
 
 class Student(db.Model):
+    __tablename__ = 'student'
+
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), nullable = False)
     birth_date = db.Column(db.Date)
@@ -12,3 +14,4 @@ class Student(db.Model):
         self.birth_date = birth_date
         self.gender = gender
         self.class_name = class_name
+

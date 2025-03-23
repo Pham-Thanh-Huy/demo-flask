@@ -1,6 +1,6 @@
 from sqlalchemy.orm import backref
 
-from library import db
+from library.database import db
 
 class Book(db.Model):
     __tablename__ = 'book'
@@ -10,7 +10,7 @@ class Book(db.Model):
     page_count = db.Column(db.Integer)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable = False)
 
-    student = db.relationship('Student', backref('books'))
+    # student = db.relationship('Student', backref('books'))
 
     def __init__(self, name, page_count, author_id, category_id, student_id):
         self.name = name

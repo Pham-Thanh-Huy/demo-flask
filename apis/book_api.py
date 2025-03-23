@@ -1,7 +1,7 @@
 from flask import Blueprint
 
-books = Blueprint('books', __name__)
+book_bp = Blueprint('books', __name__)
 
-@books.route("/hello")
+@book_bp.route("/hello")
 def hello():
     return "Hello World!"

@@ -1,4 +1,4 @@
-from library import db
+from library.database import db
 
 class Student(db.Model):
     __tablename__ = 'student'
@@ -15,3 +15,11 @@ class Student(db.Model):
         self.gender = gender
         self.class_name = class_name
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+            'gender': self.gender,
+            'class_name': self.class_name
+        }

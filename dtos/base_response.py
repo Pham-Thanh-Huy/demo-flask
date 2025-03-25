@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 
 from typing_extensions import TypeVar, Generic
@@ -13,9 +14,8 @@ class BaseResponse(Generic[T]):
         self.message = message
         self.status_code = status_code
 
-    def to_dict(self):
-        return {
-            "data" : self.data,
-            "message" : self.message,
-            "status_code": self.status_code
-        }
+    def to_dict(self) -> dict:
+        return self.__dict__
+
+    def __str__(self):
+        return json.dumps(self.__dict__)

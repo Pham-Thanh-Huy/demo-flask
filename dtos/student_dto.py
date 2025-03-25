@@ -11,15 +11,10 @@ class StudentDTO:
     def from_model(cls, student) -> 'StudentDTO':
         return cls(
             name = student.name,
-            birth_date = student.birth_date,
+            birth_date = str(student.birth_date),
             gender = student.gender,
             class_name= student.class_name
         )
 
     def to_dict(self) -> dict:
-        return {
-            "name" : self.name,
-            "birth_date" : self.birth_date,
-            "gender" : self.gender,
-            "class_name" :self.class_name
-        }
+        return self.__dict__

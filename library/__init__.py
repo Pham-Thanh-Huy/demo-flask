@@ -12,9 +12,9 @@ def create_app(config_file="config.py") -> Flask:
     db.init_app(app)
     app.register_blueprint(book_bp, url_prefix="/books")
     app.register_blueprint(student_bp, url_prefix="/api/student")
-    # with app.app_context():
-    #     try:
-    #         db.create_all()
-    #     except Exception as e:
-    #         print("Lỗi kết nối CSDL:", e)
+    with app.app_context():
+        try:
+            db.create_all()
+        except Exception as e:
+            print("Lỗi kết nối CSDL:", e)
     return app

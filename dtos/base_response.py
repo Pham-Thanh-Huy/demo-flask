@@ -5,7 +5,7 @@ from typing_extensions import TypeVar, Generic
 T = TypeVar('T')
 
 class BaseResponse(Generic[T]):
-    data : Optional[T]
+    data : T
     status_code : int
     message : str
     def __init__(self, data, message, status_code):

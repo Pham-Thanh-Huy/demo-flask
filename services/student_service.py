@@ -23,34 +23,25 @@ class StudentService:
         try:
             students = Student.query.all()
             if not students:
-                return BaseResponse(None, "Không có học sinh nào trong hệ thống!",
-                                    200).to_dict()
+                return BaseResponse.success(None, ConstantUtil.STUDENTS_NOT_EXISTS)
             students_dto = [StudentDTO.from_model(student).to_dict() for student in students]
-            return BaseResponse(students_dto, ConstantUtil.SUCCESS, 200).to_dict()
+            return BaseResponse.success(students_dto)
         except Exception as e:
             logging.error(f"[ERROR-TO-GET-STUDENT] {e}")
-            return BaseResponse(None, str(e), 500).to_dict()
+            return BaseResponse.internal_server_error(None, str(e))
 
     @staticmethod
     def get_by_id(student_id: int) -> dict:
         try:
             student = Student.query.filter(Student.id == student_id).first()
             if not student:
-                return BaseResponse(
-                    None,
-                    f"Không tìm thấy học sinh với id là {student_id}",
-                    404
-                ).to_dict()
+                return BaseResponse.not_found(None, f"Không tìm thấy học sinh với id là {student_id}")
 
             student_dto = StudentDTO.from_model(student).to_dict()
-            return BaseResponse(student_dto, ConstantUtil.SUCCESS, 200).to_dict()
+            return BaseResponse.success(student_dto)
         except Exception as e:
             logging.error(f"[ERROR-TO-GET-STUDENT-BY-ID {e}]")
-            return BaseResponse(
-                None,
-                f"Lỗi: {e}",
-                404
-            ).to_dict()
+            return BaseResponse.internal_server_error(None, str(e))
 
 
     @staticmethod
@@ -58,13 +49,13 @@ class StudentService:
       try:
           data = request.get_json()
           if not data:
-              return BaseResponse(None, ConstantUtil.DATA_CANNOT_EMPTY, 400).to_dict()
+              return BaseResponse.bad_request(None, ConstantUtil.DATA_CANNOT_EMPTY)
 
           try:
               schema = StudentSchema()
               schema.load(data)
           except ValidationError as validate:
-              return BaseResponse(None, validate.messages, 400).to_dict()
+              return BaseResponse.bad_request(None, validate.messages)
 
           new_student = Student(
               name=data["name"],
@@ -79,9 +70,9 @@ class StudentService:
 
           # Chuyển đối tượng Student thành DTO và trả về response
           student_dto = StudentDTO.from_model(new_student)  # new_student là đối tượng Student
-          return BaseResponse(student_dto.to_dict(), "Thêm học sinh thành công", 201).to_dict()
+          return BaseResponse.success(student_dto.to_dict(), "Add student success")
       except UnsupportedMediaType as e:
-          return BaseResponse(None, "I do not support this mediatype please use application/json", 400).to_dict()
+          return BaseResponse.bad_request(None, "I do not support this mediatype please use application/json")
       except Exception as e:
           logging.error(f"[ERROR-TO-ADD-STUDENT {e}")
-          return BaseResponse(None, str(e), 500).to_dict()
+          return BaseResponse.internal_server_error(None, str(e))

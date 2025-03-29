@@ -10,7 +10,8 @@ class Book(db.Model):
     page_count = db.Column(db.Integer)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable = False)
 
-    # student = db.relationship('Student', backref('books'))
+    # Thiết lập relationship với Student
+    student = db.relationship('Student', backref=backref('books', lazy='dynamic'))
 
     def __init__(self, name, page_count, author_id, category_id, student_id):
         self.name = name

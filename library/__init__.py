@@ -10,7 +10,7 @@ def create_app(config_file="config.py") -> Flask:
     app = Flask(__name__)
     app.config.from_pyfile(config_file)
     db.init_app(app)
-    app.register_blueprint(book_bp, url_prefix="/books")
+    app.register_blueprint(book_bp, url_prefix="/api/book")
     app.register_blueprint(student_bp, url_prefix="/api/student")
     with app.app_context():
         try:
